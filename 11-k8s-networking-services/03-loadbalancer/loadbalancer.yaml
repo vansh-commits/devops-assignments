@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-lb
+spec:
+  type: LoadBalancer       # on cloud = real LB; on minikube needs `minikube tunnel`
+  selector:
+    app: backend
+  ports:
+  - port: 8088             # non-privileged port, so `minikube tunnel` on macOS doesn't need sudo
+    targetPort: 80

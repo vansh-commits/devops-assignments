@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lifecycle-running
+spec:
+  containers:
+  - name: web
+    image: nginx:alpine       # long-running server -> stays in Running
+    ports:
+    - containerPort: 80

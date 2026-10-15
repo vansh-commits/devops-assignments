@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: web-tls
+type: Opaque
+stringData:
+  tls.crt: "demo-cert-not-real"
+  tls.key: "demo-key-not-real"

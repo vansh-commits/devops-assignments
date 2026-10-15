@@ -1,0 +1,12 @@
+replicaCount: 3
+
+page:
+  message: "Deployed with Helm - version 2 (upgraded with -f values-v2.yaml)"
+  notes:
+    - "Chart = package, Release = installed copy of a chart"
+    - "values.yaml holds the defaults"
+    - "helm rollback creates a NEW revision"
+    - "This line only exists in version 2"
+
+service:
+  type: NodePort

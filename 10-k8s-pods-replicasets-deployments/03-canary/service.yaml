@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-canary-service
+spec:
+  selector:
+    app: web-canary-demo     # matches BOTH stable (9 pods) and canary (1 pod)
+  ports:
+  - port: 80
+    targetPort: 80

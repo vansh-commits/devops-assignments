@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shop-frontend
+  template:
+    metadata:
+      labels:
+        app: shop-frontend
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: shop-secret
+              key: api-key
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: shop-secret
+type: Opaque
+data:
+  api-key: ZGVtby1rZXk=          # demo-key — now matches the requested key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-frontend-svc
+spec:
+  selector:
+    app: shop-frontend            # FIXED: matches pod label
+  ports:
+  - port: 80

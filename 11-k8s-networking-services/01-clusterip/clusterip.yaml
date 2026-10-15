@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-clusterip
+spec:
+  type: ClusterIP          # default type - reachable only inside the cluster
+  selector:
+    app: backend
+  ports:
+  - port: 80               # port of the Service
+    targetPort: 80         # port of the container

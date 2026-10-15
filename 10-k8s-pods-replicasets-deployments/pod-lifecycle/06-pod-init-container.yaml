@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lifecycle-init
+spec:
+  initContainers:
+  - name: wait-a-bit
+    image: busybox:1.36
+    command: ["sh", "-c", "echo 'init: preparing...'; sleep 15; echo 'init: done'"]
+  containers:
+  - name: web
+    image: nginx:alpine
+    lifecycle:
+      postStart:              # runs right after the container starts
+        exec:
+          command: ["sh", "-c", "echo 'postStart hook ran' > /usr/share/nginx/html/hook.txt"]
+      preStop:                # runs just before the container is killed
+        exec:
+          command: ["sh", "-c", "sleep 5"]

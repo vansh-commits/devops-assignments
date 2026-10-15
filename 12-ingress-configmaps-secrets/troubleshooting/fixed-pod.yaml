@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  WELCOME_MSG: "hello from configmap"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fixed-env-pod
+spec:
+  containers:
+  - name: app
+    image: nginx:alpine
+    command: ["sh", "-c", "echo $WELCOME_MSG && sleep 300"]
+    env:
+    - name: WELCOME_MSG
+      valueFrom:
+        configMapKeyRef:
+          name: app-config          # FIX: correct ConfigMap name
+          key: WELCOME_MSG

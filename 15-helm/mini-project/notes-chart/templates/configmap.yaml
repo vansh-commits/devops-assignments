@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "notes-chart.fullname" . }}-page
+  labels:
+    {{- include "notes-chart.labels" . | nindent 4 }}
+data:
+  index.html: |
+    <!doctype html>
+    <html>
+      <head><title>{{ .Values.page.title }}</title></head>
+      <body>
+        <h1>{{ .Values.page.title }}</h1>
+        <p>{{ .Values.page.message }}</p>
+        <ul>
+        {{- range .Values.page.notes }}
+          <li>{{ . }}</li>
+        {{- end }}
+        </ul>
+        <small>Release: {{ .Release.Name }} | Revision: {{ .Release.Revision }} | Chart: {{ include "notes-chart.chart" . }}</small>
+      </body>
+    </html>

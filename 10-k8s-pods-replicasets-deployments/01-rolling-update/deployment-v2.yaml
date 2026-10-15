@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-rolling
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1          # at most 1 extra pod above 4 during the update
+      maxUnavailable: 0    # never go below 4 ready pods -> zero downtime
+  selector:
+    matchLabels:
+      app: app-rolling
+  template:
+    metadata:
+      labels:
+        app: app-rolling
+        version: v2
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.27-alpine
+        command: ["sh", "-c", "echo 'Hello from VERSION 2' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"]
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-rolling-svc
+spec:
+  selector:
+    app: app-rolling
+  ports:
+  - port: 80
+    targetPort: 80

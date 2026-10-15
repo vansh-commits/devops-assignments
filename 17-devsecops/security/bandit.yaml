@@ -1,0 +1,3 @@
+exclude_dirs:
+  - tests          # asserts in tests are expected (B101), not a security issue
+skips: []          # nothing skipped - every rule is active

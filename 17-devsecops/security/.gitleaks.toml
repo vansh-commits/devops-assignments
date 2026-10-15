@@ -1,0 +1,11 @@
+title = "Session 17 DevSecOps gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known false positives"
+paths = [
+  '''screenshots/''',
+  '''\.venv/''',      # local virtualenv, never committed
+]

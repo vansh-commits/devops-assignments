@@ -1,0 +1,6 @@
+apiVersion: v2
+name: notes-chart
+description: Session 15 mini project - an nginx "notes" page whose content and size are driven by values.yaml
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

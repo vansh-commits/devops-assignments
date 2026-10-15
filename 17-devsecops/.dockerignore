@@ -1,0 +1,10 @@
+tests/
+k8s/
+security/
+workflow/
+screenshots/
+README.md
+requirements-dev.txt
+pytest.ini
+**/__pycache__
+.venv/

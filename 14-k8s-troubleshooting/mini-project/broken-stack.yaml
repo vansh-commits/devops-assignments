@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shop-frontend
+  template:
+    metadata:
+      labels:
+        app: shop-frontend
+    spec:
+      containers:
+      - name: web
+        image: nginx:does-not-exist
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: shop-secret
+              key: api-key
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: shop-secret
+type: Opaque
+data:
+  token: ZGVtby1rZXk=            # BUG: secret holds 'token', pod asks for 'api-key'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-frontend-svc
+spec:
+  selector:
+    app: shopfront                # BUG: pods have app=shop-frontend
+  ports:
+  - port: 80

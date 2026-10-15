@@ -1,0 +1,11 @@
+severity:
+  - HIGH
+  - CRITICAL
+exit-code: 1              # any finding at these severities fails the pipeline
+vulnerability:
+  ignore-unfixed: true    # only block on CVEs that actually have a fix available
+scan:
+  scanners:
+    - vuln
+    - secret              # also look for secrets baked into image layers
+ignorefile: security/.trivyignore

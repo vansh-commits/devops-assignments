@@ -1,0 +1,10 @@
+{
+  "name": "cicd-demo-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Session 16 - CI/CD demo app (no dependencies)",
+  "scripts": {
+    "start": "node app/server.js",
+    "test": "node --test"
+  }
+}

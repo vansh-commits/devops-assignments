@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-stable
+spec:
+  replicas: 9                  # 9 of 10 pods -> ~90% of traffic
+  selector:
+    matchLabels:
+      app: web-canary-demo
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: web-canary-demo   # the Service selects only on this label
+        track: stable
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.26-alpine
+        command: ["sh", "-c", "echo 'STABLE v1' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"]
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi

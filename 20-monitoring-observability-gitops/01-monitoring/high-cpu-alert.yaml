@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: demo.rules
+      rules:
+        - alert: HighPodCPU
+          expr: sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{namespace="default", container!=""}[2m])) > 0.3
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU on {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} is using {{ $value | humanize }} CPU cores for more than 1 minute."
+
+        - alert: PodNotReady
+          expr: sum by (namespace, pod) (kube_pod_status_ready{namespace="default", condition="false"}) > 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.pod }} is not ready"
+            description: "Readiness probe has been failing for 2 minutes."

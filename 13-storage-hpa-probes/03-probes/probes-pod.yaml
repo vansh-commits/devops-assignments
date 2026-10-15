@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: probes-demo
+spec:
+  containers:
+  - name: web
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+    startupProbe:                 # finished starting? other probes wait for this
+      httpGet:
+        path: /
+        port: 80
+      failureThreshold: 30
+      periodSeconds: 2
+    readinessProbe:               # ready for traffic? (fail = removed from Service)
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 5
+    livenessProbe:                # still alive? (fail = container restarted)
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 10
